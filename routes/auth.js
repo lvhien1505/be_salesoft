@@ -17,8 +17,7 @@ router.post(
     AuthController.register
 );
 router.post('/login', validatorLogin, validationResult, AuthController.login);
-
-// router.post("/verify-otp", AuthController.verifyConfirm);
-// router.post("/resend-verify-otp", AuthController.resendConfirmOtp);
+router.post('/send-confirm-otp', authenticate, AuthController.sendConfirmOTP);
+router.post('/confirm-account', authenticate, AuthController.confirmAccount);
 
 module.exports = router;

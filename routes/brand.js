@@ -1,13 +1,13 @@
 const express = require('express');
-const BaseController = require('../controllers/BaseController');
-const BrandProductModel = require('../models/product/BrandModel');
+const BrandController = require('../controllers/BrandController');
 const authenticate = require('../middlewares/jwt');
+const getStoreID = require('../middlewares/getStoreID');
 
 const router = express.Router();
 
-router.post('/', authenticate, BaseController.getAll(BrandProductModel));
-router.post('/create', authenticate, BaseController.create(BrandProductModel));
-router.put('/', authenticate, BaseController.update(BrandProductModel));
-router.delete('/', authenticate, BaseController.remove(BrandProductModel));
+router.post('/', authenticate, getStoreID, BrandController.getAll);
+router.post('/create', authenticate, getStoreID, BrandController.create);
+router.put('/', authenticate, BrandController.update);
+router.delete('/', authenticate, getStoreID, BrandController.remove);
 
 module.exports = router;

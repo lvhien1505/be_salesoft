@@ -3,11 +3,9 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const CustomerSchema = new mongoose.Schema(
     {
-        code: { type: Number, unique: true },
         name: { type: String, required: true },
         type: { type: String, default: 'person' },
         phone: { type: Array },
-        group: { type: Array },
         sex: { type: String },
         birthday: { type: String },
         email: { type: String },
@@ -21,12 +19,12 @@ const CustomerSchema = new mongoose.Schema(
         lastDateTransaction: { type: String },
         debt: { type: Number, default: 0 },
         totalBuy: { type: Number, default: 0 },
-        note:{type:String},
+        note: { type: String },
         status: { type: String },
     },
     { timestamps: true }
 );
 
-CustomerSchema.plugin(AutoIncrement, { id: 'customer_seq', inc_field: 'code' });
+CustomerSchema.index({ name: 'text' });
 
 module.exports = mongoose.model('Customer', CustomerSchema);

@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const StoreSchema = new mongoose.Schema(
     {
-        products: { type: Array },
-        tablePrice: { type: Array },
-        customers: { type: Array },
-        suppliers: { type: Array },
+        userID: {
+            type: String,
+            required: true,
+        }
     },
     { timestamps: true }
 );

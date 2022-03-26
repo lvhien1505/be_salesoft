@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
-const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const ProductSchema = new mongoose.Schema(
     {
-        code: { type: Number, unique: true },
         name: { type: String, required: true },
         brand: { type: String },
         category: { type: String, ref: 'Category', required: true },
@@ -41,7 +39,5 @@ const ProductSchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
-
-ProductSchema.plugin(AutoIncrement, { id: 'product_seq', inc_field: 'code' });
 
 module.exports = mongoose.model('Product', ProductSchema);

@@ -1,12 +1,25 @@
 const multer = require('multer');
+const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, `uploads/${req.user._id}/images/products/files`);
+        const dir = `uploads/${req.user._id}/files`;
+
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, {
+                recursive: true,
+            });
+        }
+        cb(null, dir);
     },
     filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        cb(null, uniqueSuffix + '-' + Date.now());
+        const uniqueSuffix =
+            Date.now() +
+            '-' +
+            Math.round(Math.random() * 1e9) +
+            '.' +
+            file.originalname.split('.')[1];
+        cb(null, uniqueSuffix);
     },
 });
 
