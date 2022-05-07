@@ -124,19 +124,38 @@ exports.update = async (req, res) => {
     }
 };
 
-// exports.search = async (req, res) => {
-//     let name = req.query.name;
+exports.search = async (req, res) => {
+    let name = req.query.name;
+    let storeID = req.store._id;
 
-//     try {
-//         let customers = await CustomerModel.find({
-//             $text: {
-//                 $search: name,
-//             },
-//         }).lean();
+    try {
+        let storeSupplier = await StoreSupplierModel.findOne({
+            storeID: storeID,
+        }).lean();
 
-//         return apiResponse.successResponseWithData(res, 'OK', customers);
-//     } catch (error) {
-//         console.log(error);
-//         return apiResponse.ErrorResponse(res, error);
-//     }
-// };
+        let suppliers = storeSupplier.suppliers;
+
+        suppliers = await SupplierModel.populate(suppliers, {
+            path: 'supplier',
+            options: {
+                lean: true,
+            },
+        });
+
+        suppliers = suppliers.filter((supplier) => {
+            name = name.toLowerCase();
+            return supplier.supplier.name.toLowerCase().search(name) >= 0;
+        });
+
+        suppliers = suppliers.map((supplier) => {
+            supplier.supplier.code = supplier.code;
+            supplier.supplier.key = supplier.code;
+            return supplier.supplier;
+        });
+
+        return apiResponse.successResponseWithData(res, 'OK', suppliers);
+    } catch (error) {
+        console.log(error);
+        return apiResponse.ErrorResponse(res, error);
+    }
+};

@@ -119,20 +119,39 @@ exports.update = async (req, res) => {
             customer
         );
     } catch (error) {
-        console.log(error)
+        console.log(error);
         return apiResponse.ErrorResponse(res, error);
     }
 };
 
 exports.search = async (req, res) => {
     let name = req.query.name;
+    let storeID = req.store._id;
 
     try {
-        let customers = await CustomerModel.find({
-            $text: {
-                $search: name,
-            },
+        let storeCustomer = await StoreCustomerModel.findOne({
+            storeID: storeID,
         }).lean();
+
+        let customers = storeCustomer.customers;
+
+        customers = await CustomerModel.populate(customers, {
+            path: 'customer',
+            options: {
+                lean: true,
+            },
+        });
+
+        customers = customers.filter((customer) => {
+            name = name.toLowerCase();
+            return customer.customer.name.toLowerCase().search(name) >= 0;
+        });
+
+        customers = customers.map((customer) => {
+            customer.customer.code = customer.code;
+            customer.customer.key = customer.code;
+            return customer.customer;
+        });
 
         return apiResponse.successResponseWithData(res, 'OK', customers);
     } catch (error) {

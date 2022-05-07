@@ -7,6 +7,7 @@ const categoryRouter = require('./category');
 const brandRouter = require('./brand');
 const invoiceRouter = require('./invoice');
 const tablePriceRouter = require('./tablePrice');
+const cashFlowRouter = require('./cashflow');
 
 const app = express();
 
@@ -18,5 +19,6 @@ app.use('/category/', categoryRouter);
 app.use('/brand/', brandRouter);
 app.use('/invoice/', invoiceRouter);
 app.use('/table-price/', tablePriceRouter);
+app.use('/cashflow/', cashFlowRouter);
 
 module.exports = app;

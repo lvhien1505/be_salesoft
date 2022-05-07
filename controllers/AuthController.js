@@ -10,6 +10,8 @@ const StoreCategoryModel = require('../models/store/StoreCategoryModel');
 const StoreBrandModel = require('../models/store/StoreBrandModel');
 const StoreInvoiceModel = require('../models/store/StoreInvoiceModel');
 const StoreTablePriceModel = require('../models/store/StoreTablePriceModel');
+const StoreCashFlowModel = require('../models/store/StoreCashFlowModel');
+const StoreHistoryModel = require('../models/store/StoreHistoryModel');
 const apiResponse = require('../helpers/apiResponse');
 const utility = require('../helpers/ultility');
 const mailer = require('../helpers/mailer');
@@ -208,6 +210,12 @@ exports.confirmAccount = async (req, res) => {
                             storeID: store._id,
                         });
                         await StoreTablePriceModel.create({
+                            storeID: store._id,
+                        });
+                        await StoreCashFlowModel.create({
+                            storeID: store._id,
+                        });
+                        await StoreHistoryModel.create({
                             storeID: store._id,
                         });
 

@@ -12,6 +12,7 @@ router.post(
     SupplierController.getSuppliersWithLimit
 );
 router.post('/create', authenticate, getStoreID, SupplierController.create);
+router.post('/search', authenticate, getStoreID, SupplierController.search);
 router.put('/', authenticate, SupplierController.update);
 
 module.exports = router;

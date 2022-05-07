@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const CustomerSchema = new mongoose.Schema(
     {
@@ -24,7 +23,5 @@ const CustomerSchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
-
-CustomerSchema.index({ name: 'text' });
 
 module.exports = mongoose.model('Customer', CustomerSchema);
